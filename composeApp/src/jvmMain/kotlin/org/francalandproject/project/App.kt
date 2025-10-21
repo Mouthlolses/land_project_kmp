@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import francalandproject.composeapp.generated.resources.Res
 import francalandproject.composeapp.generated.resources.logofrancasemfundo
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -23,7 +24,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 @Preview
-fun App() {
+fun App(navController: NavController) {
     MaterialTheme {
 
         var userInputNameRoot by remember { mutableStateOf("") }
@@ -75,9 +76,9 @@ fun App() {
             Spacer(modifier = Modifier.height(18.dp))
             Row() {
                 Button(
-                    onClick = { }
+                    onClick = { navController.navigate("homeScreen") }
                 ) {
-                    Text("Entre")
+                    Text("Entrar")
                 }
             }
 

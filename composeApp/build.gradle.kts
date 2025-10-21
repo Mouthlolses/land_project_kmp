@@ -12,6 +12,7 @@ kotlin {
     
     sourceSets {
         commonMain.dependencies {
+            implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.1")
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
