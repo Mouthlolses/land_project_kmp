@@ -32,7 +32,7 @@ fun App(navController: NavController) {
 
         Column(
             modifier = Modifier
-                .background(androidx.compose.ui.graphics.Color.White)
+                .background(Color.White)
                 .safeContentPadding()
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -40,7 +40,9 @@ fun App(navController: NavController) {
 
             Image(
                 painter = painterResource(Res.drawable.logofrancasemfundo),
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier
+                    .height(250.dp)
             )
 
             Row(
