@@ -14,7 +14,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import francalandproject.composeapp.generated.resources.Res
 import francalandproject.composeapp.generated.resources.logofrancasemfundo
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.francalandproject.project.repository.UserRepository
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -22,10 +25,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 @Preview
-fun App(navController: NavController) {
-
-    val userName = "Matheus"
-    val password = "1234567"
+fun App(navController: NavController, userRepository: UserRepository) {
 
     MaterialTheme {
 
@@ -88,26 +88,27 @@ fun App(navController: NavController) {
                     )
                 }
                 Spacer(modifier = Modifier.height(48.dp))
-                Row() {
-                    Button(
-                        onClick = {
-                            if (userInputNameRoot == userName && userInputPasswordRoot == password) {
+                Button(
+                    onClick = {
+                        scope.launch {
+                            val success = withContext(Dispatchers.IO) {
+                                userRepository.login(userInputNameRoot, userInputPasswordRoot)
+                            }
+                            if (success) {
                                 navController.navigate("homeScreen")
                             } else {
-                                scope.launch {
-                                    snackBarHostState.showSnackbar("Usuário ou senha incorretos")
-                                }
+                                snackBarHostState.showSnackbar("Usuário ou senha incorretos")
                             }
-                        },
-                        modifier = Modifier
-                            .size(width = 240.dp, height = 48.dp),
-                        colors = ButtonDefaults.buttonColors(Color(0xFF1565C0))
-                    ) {
-                        Text("Entrar")
-                    }
+                        }
+                    },
+                    modifier = Modifier
+                        .size(width = 240.dp, height = 48.dp),
+                    colors = ButtonDefaults.buttonColors(Color(0xFF1565C0))
+                ) {
+                    Text("Entrar")
                 }
-
             }
+
         }
     }
 }

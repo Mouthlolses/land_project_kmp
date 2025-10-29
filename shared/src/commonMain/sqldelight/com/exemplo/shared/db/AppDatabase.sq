@@ -1,0 +1,17 @@
+
+CREATE TABLE IF NOT EXISTS User (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    password TEXT NOT NULL
+);
+
+insertUser:
+INSERT INTO User(name, password)
+VALUES (?, ?);
+
+selectAll:
+SELECT * FROM User;
+
+selectUserByNameAndPassword:
+SELECT * FROM User
+WHERE name = ? AND password = ?;
