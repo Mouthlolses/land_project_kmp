@@ -3,7 +3,6 @@ package org.francalandproject.project.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -24,21 +23,22 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun HomeScreen(navController: NavController) {
 
-    val optionsList = listOf("Cadastrar cliente", "Consultar débitos", "Contratos ativos", "Verificações", "Ativos")
+    val optionsList = listOf("Cadastrar cliente", "Consultar débitos", "Contratos ativos")
 
-    LazyRow(
+    Row(
         modifier = Modifier
+            .padding(start = 16.dp, end = 16.dp)
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp)
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        items(optionsList.size) {
+        optionsList.forEach { option ->
             Card(
                 modifier = Modifier
                     .width(200.dp)
-                    .fillMaxWidth()
-                    .clickable(onClick = { }),
-                colors = CardDefaults.cardColors(Color.Gray)
+                    .height(250.dp)
+                    .clickable(onClick = {}),
+                colors = CardDefaults.cardColors(Color.DarkGray)
             ) {
                 Column(
                     modifier = Modifier
@@ -49,7 +49,7 @@ fun HomeScreen(navController: NavController) {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
-                    ){
+                    ) {
                         Image(
                             painter = painterResource(Res.drawable.logofrancasemfundo),
                             contentDescription = null,
@@ -64,7 +64,7 @@ fun HomeScreen(navController: NavController) {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = optionsList.random(),
+                            text = option,
                             color = Color.White,
                             fontStyle = FontStyle.Normal,
                             fontSize = 32.sp,
