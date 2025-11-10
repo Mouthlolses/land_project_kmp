@@ -23,10 +23,8 @@ fun appMain() {
         UserRepository(database.appDatabaseQueries)
     }
 
-
     LaunchedEffect(Unit) {
         userRepository.insertUser("Matheus", "1234567")
-
     }
 
     NavHost(

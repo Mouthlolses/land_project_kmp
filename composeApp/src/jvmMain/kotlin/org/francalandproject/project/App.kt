@@ -35,11 +35,7 @@ fun App(navController: NavController, userRepository: UserRepository) {
         val scope = rememberCoroutineScope()
 
         Scaffold(
-            snackbarHost = {
-                SnackbarHost(
-                    hostState = snackBarHostState
-                )
-            }
+            snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
         ) {
             Column(
                 modifier = Modifier
@@ -48,20 +44,18 @@ fun App(navController: NavController, userRepository: UserRepository) {
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-
                 Image(
                     painter = painterResource(Res.drawable.logofrancasemfundo),
                     contentDescription = null,
                     modifier = Modifier
                         .height(250.dp)
                 )
-
                 Row(
                     modifier = Modifier
                         .padding(start = 100.dp, end = 100.dp)
                 ) {
                     OutlinedTextField(
-                        value = userInputNameRoot,
+                        value = userInputNameRoot.trim(),
                         onValueChange = { userInputNameRoot = it },
                         label = { Text("Usuário") },
                         singleLine = true,
@@ -75,14 +69,12 @@ fun App(navController: NavController, userRepository: UserRepository) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Row() {
                     OutlinedTextField(
-                        value = userInputPasswordRoot,
+                        value = userInputPasswordRoot.trim(),
                         onValueChange = { userInputPasswordRoot = it },
                         label = { Text("Senha") },
                         singleLine = true,
                         shape = RoundedCornerShape(26.dp),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = Color.Gray
-                        ),
+                        colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = Color.Gray),
                         visualTransformation = PasswordVisualTransformation(),
                         modifier = Modifier.width(300.dp)
                     )
@@ -94,10 +86,9 @@ fun App(navController: NavController, userRepository: UserRepository) {
                             val success = withContext(Dispatchers.IO) {
                                 userRepository.login(userInputNameRoot, userInputPasswordRoot)
                             }
-                            if (success) {
-                                navController.navigate("homeScreen")
-                            } else {
-                                snackBarHostState.showSnackbar("Usuário ou senha incorretos")
+                            when {
+                                success -> navController.navigate("homeScreen")
+                                else -> snackBarHostState.showSnackbar("Usuário ou senha incorretos")
                             }
                         }
                     },
@@ -108,7 +99,6 @@ fun App(navController: NavController, userRepository: UserRepository) {
                     Text("Entrar")
                 }
             }
-
         }
     }
 }

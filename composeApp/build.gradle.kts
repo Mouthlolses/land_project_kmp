@@ -10,7 +10,7 @@ plugins {
 
 kotlin {
     jvm()
-    
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -38,7 +38,6 @@ kotlin {
                 implementation(compose.desktop.currentOs)
                 implementation(libs.kotlinx.coroutinesSwing)
 
-                // ✅ SQLDelight (adicionado no lugar certo)
                 implementation("app.cash.sqldelight:runtime:2.0.2")
                 implementation("app.cash.sqldelight:sqlite-driver:2.0.2")
             }
@@ -57,9 +56,20 @@ compose {
         application {
             mainClass = "org.francalandproject.project.MainKt"
             nativeDistributions {
-                targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-                packageName = "org.francalandproject.project"
+                targetFormats(TargetFormat.Msi)
+                packageName = "FB Imobiliária"
                 packageVersion = "1.0.0"
+
+                includeAllModules = true
+                jvmArgs += listOf("-Dfile.encoding=UTF-8")
+
+
+
+                windows {
+                    menuGroup = "FrancaLand"
+                    upgradeUuid = "12345678-1234-1234-1234-123456789abc"
+                    iconFile.set(project.file("src/jvmMain/composeResources/drawable/icon.ico"))
+                }
             }
         }
     }
