@@ -1,4 +1,4 @@
-package org.francalandproject.project.screens
+package org.francalandproject.project.screens.HomeScreen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -9,6 +9,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import org.francalandproject.project.components.TopBarWithTabs
+import org.francalandproject.project.screens.ConsultDebitScreen
+import org.francalandproject.project.screens.ContractsActiveScreen
+import org.francalandproject.project.screens.RegisterClientScreen
 
 
 @Composable
@@ -31,8 +34,8 @@ fun HomeScreen(navController: NavController) {
         Box(modifier = Modifier.padding(paddingValues)) {
             when (selectedTab) {
                 0 -> RegisterClientScreen()
-                1 -> ConsultDebitScreen()
-                2 -> ContractsActiveScreen()
+                1 -> ContractsActiveScreen()
+                2 -> ConsultDebitScreen()
             }
         }
     }

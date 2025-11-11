@@ -12,6 +12,6 @@ fun ConsultDebitScreen(){
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Text(text = "CadastrarClientScreen")
+        Text(text = "ConsultDebitScreen")
     }
 }

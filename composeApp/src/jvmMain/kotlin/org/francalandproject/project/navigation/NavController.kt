@@ -10,7 +10,7 @@ import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.exemplo.shared.db.AppDatabase
 import org.francalandproject.project.App
 import org.francalandproject.project.repository.UserRepository
-import org.francalandproject.project.screens.HomeScreen
+import org.francalandproject.project.screens.HomeScreen.HomeScreen
 
 @Composable
 fun appMain() {

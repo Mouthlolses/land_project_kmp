@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
-    id("app.cash.sqldelight")
 }
 
 kotlin {
@@ -56,8 +55,8 @@ compose {
         application {
             mainClass = "org.francalandproject.project.MainKt"
             nativeDistributions {
-                targetFormats(TargetFormat.Msi)
-                packageName = "FB Imobiliária"
+                targetFormats(TargetFormat.Exe)
+                packageName = "FB_Imobiliaria"
                 packageVersion = "1.0.0"
 
                 includeAllModules = true
@@ -67,7 +66,7 @@ compose {
 
                 windows {
                     menuGroup = "FrancaLand"
-                    upgradeUuid = "12345678-1234-1234-1234-123456789abc"
+                    upgradeUuid = "1bfe21e7-8b9c-46fd-96d8-1708e4fc73a6"
                     iconFile.set(project.file("src/jvmMain/composeResources/drawable/icon.ico"))
                 }
             }

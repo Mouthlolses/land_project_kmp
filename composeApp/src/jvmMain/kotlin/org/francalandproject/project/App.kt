@@ -42,7 +42,7 @@ fun App(navController: NavController, userRepository: UserRepository) {
                     .background(Color.White)
                     .safeContentPadding()
                     .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
                     painter = painterResource(Res.drawable.logofrancasemfundo),
