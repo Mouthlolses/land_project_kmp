@@ -1,14 +1,13 @@
 package org.francalandproject.project.components
 
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.unit.dp
 
 
 @Composable
@@ -25,23 +24,17 @@ fun TextField(
     shape: Shape = TextFieldDefaults.shape,
     colors: TextFieldColors = TextFieldDefaults.colors()
 ) {
-    Surface(
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValue,
+        modifier = modifier,
+        enabled = enabled,
+        label = label,
+        placeholder = placeHolder,
+        isError = isError,
+        keyboardOptions = keyboardOptions,
+        singleLine = singleLine,
         shape = shape,
-        tonalElevation = 16.dp
-    ) {
-        TextField(
-            value = value,
-            onValueChange = onValue,
-            modifier = modifier,
-            enabled = enabled,
-            label = label,
-            placeholder = placeHolder,
-            isError = isError,
-            keyboardOptions = keyboardOptions,
-            singleLine = singleLine,
-            shape = shape,
-            colors = colors,
-        )
-    }
-
+        colors = colors,
+    )
 }
