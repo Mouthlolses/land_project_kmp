@@ -11,14 +11,21 @@ import com.exemplo.shared.db.AppDatabase
 import org.francalandproject.project.App
 import org.francalandproject.project.repository.UserRepository
 import org.francalandproject.project.screens.HomeScreen.HomeScreen
+import java.io.File
 
 @Composable
 fun appMain() {
     val navController = rememberNavController()
 
     val userRepository = remember {
+        val dbPath = System.getProperty("user.home") + "\\AppData\\Local\\FrancaLandProject\\app.db"
+        File(dbPath).parentFile?.mkdirs()
         val driver = JdbcSqliteDriver("jdbc:sqlite:app.db")
-        AppDatabase.Schema.create(driver)
+        try {
+            AppDatabase.Schema.create(driver)
+        } catch (e: Exception){
+
+        }
         val database = AppDatabase(driver)
         UserRepository(database.appDatabaseQueries)
     }

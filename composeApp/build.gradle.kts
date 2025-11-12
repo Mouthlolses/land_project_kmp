@@ -39,6 +39,8 @@ kotlin {
 
                 implementation("app.cash.sqldelight:runtime:2.0.2")
                 implementation("app.cash.sqldelight:sqlite-driver:2.0.2")
+
+                implementation("org.xerial:sqlite-jdbc:3.45.2.0")
             }
         }
     }
@@ -54,6 +56,9 @@ compose {
     desktop {
         application {
             mainClass = "org.francalandproject.project.MainKt"
+            buildTypes.release.proguard {
+                isEnabled.set(false)
+            }
             nativeDistributions {
                 targetFormats(TargetFormat.Exe)
                 packageName = "FB_Imobiliaria"

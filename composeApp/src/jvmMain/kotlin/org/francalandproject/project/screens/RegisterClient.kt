@@ -5,12 +5,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -20,6 +24,7 @@ import java.awt.FileDialog
 import java.awt.Frame
 import java.io.File
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterClientScreen() {
 
@@ -29,13 +34,15 @@ fun RegisterClientScreen() {
     var clientCpf by remember { mutableStateOf("") }
     var clientAddressRoad by remember { mutableStateOf("") }
     var clientHouseNumber by remember { mutableStateOf("") }
-    var clientComplemente by remember { mutableStateOf("") }
+    var clientComplement by remember { mutableStateOf("") }
     var clientNeighborhood by remember { mutableStateOf("") }
     var clientCity by remember { mutableStateOf("") }
     var clientPhone by remember { mutableStateOf("") }
     var clientEmail by remember { mutableStateOf("") }
 
 
+    val state = rememberDatePickerState()
+    var showPicker = remember { mutableStateOf(false) }
     var selectedFile by remember { mutableStateOf<File?>(null) }
     val scrollState = rememberScrollState()
 
@@ -158,8 +165,8 @@ fun RegisterClientScreen() {
         }
         Spacer(modifier = Modifier.padding(top = 16.dp))
         TextField(
-            value = clientComplemente,
-            onValue = { clientComplemente = it },
+            value = clientComplement,
+            onValue = { clientComplement = it },
             label = { Text(text = "Complemento (opcional)") },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text
@@ -248,13 +255,19 @@ fun RegisterClientScreen() {
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.padding(top = 10.dp))
-        Button(onClick = {
-            val dialog = FileDialog(null as Frame?, "Selecione um arquivo", FileDialog.LOAD)
-            dialog.isVisible = true
-            dialog.files.firstOrNull()?.let {
-                selectedFile = it
-            }
-        }) {
+        Button(
+            onClick = {
+                val dialog = FileDialog(null as Frame?, "Selecione um arquivo", FileDialog.LOAD)
+                dialog.isVisible = true
+                dialog.files.firstOrNull()?.let {
+                    selectedFile = it
+                }
+            },
+            colors = ButtonDefaults.buttonColors(
+                Color(0xFF1565C0),
+                contentColor = Color.White
+            )
+        ) {
             Text("Selecionar arquivo")
         }
 
