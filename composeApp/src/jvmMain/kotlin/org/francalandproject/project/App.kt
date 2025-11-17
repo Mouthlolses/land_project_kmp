@@ -87,7 +87,7 @@ fun App(navController: NavController, userRepository: UserRepository) {
                                 userRepository.login(userInputNameRoot, userInputPasswordRoot)
                             }
                             when {
-                                success -> navController.navigate("homeScreen")
+                                success -> navController.navigate("onBoardingScreen")
                                 else -> snackBarHostState.showSnackbar("Usuário ou senha incorretos")
                             }
                         }

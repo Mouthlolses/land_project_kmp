@@ -15,3 +15,5 @@ SELECT * FROM User;
 selectUserByNameAndPassword:
 SELECT * FROM User
 WHERE name = ? AND password = ?;
+
+

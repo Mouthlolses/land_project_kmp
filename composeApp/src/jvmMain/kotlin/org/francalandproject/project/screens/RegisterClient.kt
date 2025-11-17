@@ -14,11 +14,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import org.francalandproject.project.components.TextField
 import java.awt.FileDialog
 import java.awt.Frame
@@ -27,6 +27,13 @@ import java.io.File
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterClientScreen() {
+
+    val registerClientRepository = remember {
+        val dbPath = System.getProperty("user.home") + "\\AppData\\Local\\FrancaLandProject\\app.db"
+        File(dbPath).parentFile?.mkdirs()
+        val driver = JdbcSqliteDriver("jdbc:sqlite:app.db")
+
+    }
 
     var clientName by remember { mutableStateOf("") }
     var birthDate by remember { mutableStateOf("") }
@@ -270,9 +277,22 @@ fun RegisterClientScreen() {
         ) {
             Text("Selecionar arquivo")
         }
-
         selectedFile?.let {
             Text("Arquivo selecionado: ${it.name}")
         }
+        Spacer(modifier = Modifier.padding(top = 18.dp))
+        Button(
+            onClick = {},
+            colors = ButtonDefaults.buttonColors(
+                Color(0xFF2FC015),
+                contentColor = Color.White
+            )
+        ) {
+            Text(text = "Salvar")
+        }
     }
+}
+
+private fun salveClient() {
+
 }
