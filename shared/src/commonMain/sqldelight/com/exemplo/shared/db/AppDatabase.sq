@@ -5,11 +5,27 @@ CREATE TABLE IF NOT EXISTS User (
     password TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS Client (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    clientName TEXT NOT NULL,
+    birthDate TEXT NOT NULL,
+    clientRg TEXT NOT NULL,
+    clientCpf TEXT NOT NULL,
+    clientAddressRoad TEXT NOT NULL,
+    clientHouseNumber TEXT NOT NULL,
+    clientComplement TEXT,
+    clientNeighborhood TEXT NOT NULL,
+    clientCity TEXT NOT NULL,
+    clientPhone TEXT NOT NULL,
+    clientEmail TEXT NOT NULL,
+    clientFileDocPath TEXT NOT NULL
+);
+
 insertUser:
 INSERT INTO User(name, password)
 VALUES (?, ?);
 
-selectAll:
+selectAllUsers:
 SELECT * FROM User;
 
 selectUserByNameAndPassword:
@@ -17,3 +33,19 @@ SELECT * FROM User
 WHERE name = ? AND password = ?;
 
 
+insertClient:
+INSERT INTO Client(
+    clientName, birthDate, clientRg, clientCpf,
+    clientAddressRoad, clientHouseNumber, clientComplement,
+    clientNeighborhood, clientCity, clientPhone, clientEmail,
+    clientFileDocPath
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+selectAllClients:
+SELECT * FROM Client;
+
+selectClientById:
+SELECT * FROM Client WHERE id = ?;
+
+deleteClientById:
+DELETE FROM Client WHERE id = ?;

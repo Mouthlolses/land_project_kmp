@@ -10,7 +10,7 @@ class UserRepository(private val userQueries: AppDatabaseQueries) {
     }
 
     fun getAllUsers(): List<User> {
-        return userQueries.selectAll().executeAsList()
+        return userQueries.selectAllUsers().executeAsList()
     }
 
     fun login(name: String, password: String): Boolean {
