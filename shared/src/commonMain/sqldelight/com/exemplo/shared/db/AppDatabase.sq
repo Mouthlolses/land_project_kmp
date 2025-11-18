@@ -18,7 +18,13 @@ CREATE TABLE IF NOT EXISTS Client (
     clientCity TEXT NOT NULL,
     clientPhone TEXT NOT NULL,
     clientEmail TEXT NOT NULL,
-    clientFileDocPath TEXT NOT NULL
+    clientFileDocPath TEXT NOT NULL,
+    propertyPrice TEXT NOT NULL,
+    entryInstallment TEXT,
+    valueOfMonthlyInstallments TEXT NOT NULL,
+    datesForMonthlyInstallments TEXT NOT NULL,
+    paymentFrequencyForInstallments TEXT NOT NULL,
+    numberOfInstallments TEXT NOT NULL
 );
 
 insertUser:
@@ -38,8 +44,8 @@ INSERT INTO Client(
     clientName, birthDate, clientRg, clientCpf,
     clientAddressRoad, clientHouseNumber, clientComplement,
     clientNeighborhood, clientCity, clientPhone, clientEmail,
-    clientFileDocPath
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+    clientFileDocPath, propertyPrice, entryInstallment, valueOfMonthlyInstallments, datesForMonthlyInstallments, paymentFrequencyForInstallments,  numberOfInstallments
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?, ?, ?, ?);
 
 selectAllClients:
 SELECT * FROM Client;

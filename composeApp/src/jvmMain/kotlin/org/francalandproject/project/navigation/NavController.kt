@@ -3,7 +3,6 @@ package org.francalandproject.project.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -12,7 +11,7 @@ import com.exemplo.shared.db.AppDatabase
 import org.francalandproject.project.App
 import org.francalandproject.project.repository.UserRepository
 import org.francalandproject.project.screens.home.HomeScreen
-import org.francalandproject.project.screens.home.OnBoardingScreen
+import org.francalandproject.project.screens.onboarding.OnBoardingScreen
 import java.io.File
 
 @Composable

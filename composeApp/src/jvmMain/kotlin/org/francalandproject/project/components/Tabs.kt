@@ -14,7 +14,7 @@ fun TopBarWithTabs(
     onTabSelected: (Int) -> Unit
 ) {
     Column {
-        val optionsList = listOf("Cadastrar cliente", "Consultar débitos", "Contratos ativos")
+        val optionsList = listOf("Compradores", "Débitos", "Contratos")
 
         TabRow(selectedTabIndex = selectedTabIndex) {
             optionsList.forEachIndexed { index, title ->

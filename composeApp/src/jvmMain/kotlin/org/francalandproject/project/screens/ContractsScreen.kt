@@ -7,11 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun ContractsActiveScreen() {
+fun ContractsScreen(){
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Text(text = "ContractsActiveScreen")
+        Text(text = "Consulte a situação dos contratos")
     }
 }

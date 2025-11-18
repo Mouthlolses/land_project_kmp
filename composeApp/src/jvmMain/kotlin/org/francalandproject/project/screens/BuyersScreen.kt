@@ -37,7 +37,7 @@ import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterClientScreen() {
+fun BuyersScreen() {
 
     val clientRepository = remember {
         val dbPath = System.getProperty("client.register") + "\\AppData\\Local\\FrancaLandProject\\app.db"
@@ -64,6 +64,15 @@ fun RegisterClientScreen() {
     var clientComplement by remember { mutableStateOf("") }
     var clientNeighborhood by remember { mutableStateOf("") }
     var clientCity by remember { mutableStateOf("") }
+
+    var propertyPrice by remember { mutableStateOf("") } // preço do imovel Ex: R$ 55.000,00
+    var entryInstallment by remember { mutableStateOf("") }  // valor da parcela de entrada // opcional
+    var valueOfMonthlyInstallments by remember { mutableStateOf("") } //  valor das parcelas mensais Ex: R$ 1.527,77
+    var datesForMonthlyInstallments by remember { mutableStateOf("") } // DATAS DE VENCIMENTO DAS PARCELAS MENSAIS Ex: 26/09/25 A 26/09/28
+    var paymentFrequencyForInstallments by remember { mutableStateOf("") } // PERIODICIDADE DE PAGAMENTO DAS PARCELAS - Ex: Mensal
+
+    var numberOfInstallments by remember { mutableStateOf("") } // número de parcelas, dado a partir do calculo das datas de vencimento das parcelas mensais
+
     var clientPhone by remember { mutableStateOf("") }
     var clientEmail by remember { mutableStateOf("") }
 
@@ -84,10 +93,11 @@ fun RegisterClientScreen() {
                 icon = {
                     Icon(
                         painter = painterResource(Res.drawable.personAdd),
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = Color.White
                     )
                 },
-                text = { Text("Cadastrar comprador", color = Color.White) },
+                text = { Text("Cadastrar Comprador", color = Color.White) },
                 expanded = expanded,
                 containerColor = Color(0xFF1565C0),
                 elevation = FloatingActionButtonDefaults.elevation(
@@ -146,33 +156,59 @@ fun RegisterClientScreen() {
                             )
                             Spacer(modifier = Modifier.height(4.dp))
 
-                            // Data de Nascimento - Subtítulo com Ícone
+                            // Data de Vencimento das Parcelas mensais - Subtítulo com Ícone
                             Row(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Icon(
                                     painter = painterResource(Res.drawable.calendarToday),
-                                    contentDescription = "Data de Nascimento",
+                                    contentDescription = "Data de vencimento das parcelas mensais",
                                     tint = MaterialTheme.colorScheme.outline, // Cor discreta
                                     modifier = Modifier.size(16.dp)
                                 )
                                 Spacer(modifier = Modifier.width(4.dp))
                                 Text(
-                                    text = "Nascimento: ${value.birthDate}",
+                                    text = "Perído de Pagamento: ${value.datesForMonthlyInstallments}",
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.outline
                                 )
                             }
-
-                            // Exemplo: Adicionando CPF ou Telefone para mais detalhes rápidos
-                            // if (value.clientCpf.isNotEmpty()) {
-                            //     Spacer(modifier = Modifier.height(2.dp))
-                            //     Text(
-                            //         text = "CPF: ${value.clientCpf}",
-                            //         style = MaterialTheme.typography.bodySmall,
-                            //         color = MaterialTheme.colorScheme.onSurfaceVariant
-                            //     )
-                            // }
+                            Spacer(modifier = Modifier.height(4.dp))
+                            //Periocidade de pagamento das parcelas
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    painter = painterResource(Res.drawable.calendarToday),
+                                    contentDescription = "Periocidade de pagamento das parcelas",
+                                    tint = MaterialTheme.colorScheme.outline, // Cor discreta
+                                    modifier = Modifier.size(16.dp)
+                                )
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text(
+                                    text = "Periocidade do Parcelamento: ${value.paymentFrequencyForInstallments}",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.outline
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(4.dp))
+                            //Vencimento da proxima parcela
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    painter = painterResource(Res.drawable.calendarToday),
+                                    contentDescription = "Periocidade de pagamento das parcelas",
+                                    tint = MaterialTheme.colorScheme.outline, // Cor discreta
+                                    modifier = Modifier.size(16.dp)
+                                )
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text(
+                                    text = "Periocidade do Parcelamento: ${value.paymentFrequencyForInstallments}",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.outline
+                                )
+                            }
                         }
                     }
                 }
@@ -349,6 +385,105 @@ fun RegisterClientScreen() {
                 }
                 Spacer(modifier = Modifier.padding(top = 24.dp))
                 Text(
+                    text = "Informações de compra",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.padding(top = 16.dp))
+                TextField(
+                    value = propertyPrice,
+                    onValue = { propertyPrice = it },
+                    label = { Text(text = "Preço do Imóvel") },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Phone
+                    ),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent
+                    )
+                )
+                Spacer(modifier = Modifier.padding(top = 16.dp))
+                TextField(
+                    value = entryInstallment,
+                    onValue = { entryInstallment = it },
+                    label = { Text(text = "Valor da Parcela de Entrada (Opcional)") },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Phone
+                    ),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent
+                    )
+                )
+                Spacer(modifier = Modifier.padding(top = 16.dp))
+                Row(
+                    modifier = Modifier,
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TextField(
+                        value = valueOfMonthlyInstallments,
+                        onValue = { valueOfMonthlyInstallments = it },
+                        label = { Text(text = "Valor das Parcelas Mensais") },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Phone
+                        ),
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent
+                        )
+                    )
+                    Spacer(modifier = Modifier.padding(horizontal = 16.dp))
+
+                    TextField(
+                        value = datesForMonthlyInstallments,
+                        onValue = { datesForMonthlyInstallments = it },
+                        label = { Text(text = "Datas de Vencimento das Parcelas Mensais") },
+                        placeHolder = { Text(text = "Exemplo: 26/09/25 A 26/09/28") },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Phone
+                        ),
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent
+                        )
+                    )
+                }
+                Spacer(modifier = Modifier.padding(top = 16.dp))
+                Row(
+                    modifier = Modifier,
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TextField(
+                        value = numberOfInstallments,
+                        onValue = { numberOfInstallments = it },
+                        label = { Text(text = "Número de Parcelas") },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Phone
+                        ),
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent
+                        )
+                    )
+                    Spacer(modifier = Modifier.padding(horizontal = 16.dp))
+                    TextField(
+                        value = paymentFrequencyForInstallments,
+                        onValue = { paymentFrequencyForInstallments = it },
+                        label = { Text(text = "Periocidade de Pagamento") },
+                        placeHolder = { Text(text = "Exemplo: Mensal") },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Phone
+                        ),
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent
+                        )
+                    )
+                }
+                Spacer(modifier = Modifier.padding(top = 24.dp))
+                Text(
                     text = "Meio de Contato",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
@@ -427,7 +562,13 @@ fun RegisterClientScreen() {
                                 clientCity = clientCity,
                                 clientPhone = clientPhone,
                                 clientEmail = clientEmail,
-                                clientFileDoc = selectedFile?.name ?: "Não encontrado"
+                                clientFileDoc = selectedFile?.name ?: "Não encontrado",
+                                propertyPrice = propertyPrice,
+                                entryInstallment = entryInstallment,
+                                valueOfMonthlyInstallments = valueOfMonthlyInstallments,
+                                datesForMonthlyInstallments = datesForMonthlyInstallments,
+                                paymentFrequencyForInstallments = paymentFrequencyForInstallments,
+                                numberOfInstallments = numberOfInstallments
                             )
                         )
                         clients = clientRepository.getAllClients()

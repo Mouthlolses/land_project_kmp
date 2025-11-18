@@ -1,7 +1,5 @@
 package org.francalandproject.project.model
 
-import java.io.File
-
 data class Client(
     val clientName: String,
     val birthDate: String,
@@ -16,5 +14,12 @@ data class Client(
     val clientEmail: String,
 
     // Armazena só o path no banco
-    val clientFileDoc: String
-)
+    val clientFileDoc: String,
+
+    val propertyPrice: String,
+    val entryInstallment: String? = null,
+    val valueOfMonthlyInstallments: String,
+    val datesForMonthlyInstallments: String,
+    val paymentFrequencyForInstallments: String,
+    val numberOfInstallments: String
+    )

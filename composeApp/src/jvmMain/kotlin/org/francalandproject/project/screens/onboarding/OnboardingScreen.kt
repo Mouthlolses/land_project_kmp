@@ -1,4 +1,4 @@
-package org.francalandproject.project.screens.home
+package org.francalandproject.project.screens.onboarding
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

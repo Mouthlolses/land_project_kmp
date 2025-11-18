@@ -19,6 +19,12 @@ class ClientRepository(private val clientQueries: AppDatabaseQueries) {
             clientPhone = client.clientPhone,
             clientEmail = client.clientEmail,
             clientFileDocPath = client.clientFileDoc,
+            propertyPrice = client.propertyPrice,
+            entryInstallment = client.entryInstallment,
+            valueOfMonthlyInstallments = client.valueOfMonthlyInstallments,
+            datesForMonthlyInstallments = client.datesForMonthlyInstallments,
+            paymentFrequencyForInstallments = client.paymentFrequencyForInstallments,
+            numberOfInstallments = client.numberOfInstallments,
         )
     }
 
