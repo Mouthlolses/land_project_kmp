@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
@@ -19,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
@@ -28,12 +30,14 @@ import francalandproject.composeapp.generated.resources.accountCircle
 import francalandproject.composeapp.generated.resources.calendarToday
 import francalandproject.composeapp.generated.resources.personAdd
 import org.francalandproject.project.components.TextField
+import org.francalandproject.project.domain.calculateNumberOfInstallments
 import org.francalandproject.project.model.Client
 import org.francalandproject.project.repository.ClientRepository
 import org.jetbrains.compose.resources.painterResource
 import java.awt.FileDialog
 import java.awt.Frame
 import java.io.File
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,10 +72,16 @@ fun BuyersScreen() {
     var propertyPrice by remember { mutableStateOf("") } // preço do imovel Ex: R$ 55.000,00
     var entryInstallment by remember { mutableStateOf("") }  // valor da parcela de entrada // opcional
     var valueOfMonthlyInstallments by remember { mutableStateOf("") } //  valor das parcelas mensais Ex: R$ 1.527,77
-    var datesForMonthlyInstallments by remember { mutableStateOf("") } // DATAS DE VENCIMENTO DAS PARCELAS MENSAIS Ex: 26/09/25 A 26/09/28
+    var datesForMonthlyInstallmentsStart by remember { mutableStateOf("") } // DATAS DE VENCIMENTO DAS PARCELAS MENSAIS Ex: 26/09/25 A 26/09/28 - Inicio Ex: 26/09/25
+    var datesForMonthlyInstallmentsEnd by remember { mutableStateOf("") } // DATAS DE VENCIMENTO DAS PARCELAS MENSAIS Ex: 26/09/25 A 26/09/28 - TERMINO Ex: 26/09/28
     var paymentFrequencyForInstallments by remember { mutableStateOf("") } // PERIODICIDADE DE PAGAMENTO DAS PARCELAS - Ex: Mensal
 
-    var numberOfInstallments by remember { mutableStateOf("") } // número de parcelas, dado a partir do calculo das datas de vencimento das parcelas mensais
+    val numberOfInstallmentsResult: Int =
+        calculateNumberOfInstallments( // número de parcelas, dado a partir do calculo das datas de vencimento das parcelas mensais
+
+            dataInicialStr = datesForMonthlyInstallmentsStart,
+            dataFinalStr = datesForMonthlyInstallmentsEnd
+        )
 
     var clientPhone by remember { mutableStateOf("") }
     var clientEmail by remember { mutableStateOf("") }
@@ -85,6 +95,9 @@ fun BuyersScreen() {
 
     val sheetState = rememberModalBottomSheetState()
     var showSheet by remember { mutableStateOf(false) }
+
+    val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+
 
     Scaffold(
         floatingActionButton = {
@@ -168,7 +181,7 @@ fun BuyersScreen() {
                                 )
                                 Spacer(modifier = Modifier.width(4.dp))
                                 Text(
-                                    text = "Perído de Pagamento: ${value.datesForMonthlyInstallments}",
+                                    text = "Perído de Pagamento: ${value.datesForMonthlyInstallmentsStart} á ${value.datesForMonthlyInstallmentsEnd}",
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.outline
                                 )
@@ -204,7 +217,7 @@ fun BuyersScreen() {
                                 )
                                 Spacer(modifier = Modifier.width(4.dp))
                                 Text(
-                                    text = "Periocidade do Parcelamento: ${value.paymentFrequencyForInstallments}",
+                                    text = "Vencimento da Próxima Parcela: ",
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.outline
                                 )
@@ -243,7 +256,7 @@ fun BuyersScreen() {
                     TextField(
                         value = clientName,
                         onValue = { clientName = it },
-                        label = { Text(text = "Nome do Comprador") },
+                        label = { Text(text = "Nome do Comprador", fontWeight = FontWeight.Medium) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text
                         ),
@@ -256,7 +269,7 @@ fun BuyersScreen() {
                     TextField(
                         value = birthDate,
                         onValue = { birthDate = it },
-                        label = { Text(text = "Data de Nascimento") },
+                        label = { Text(text = "Data de Nascimento", fontWeight = FontWeight.Medium) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number
                         ),
@@ -275,7 +288,7 @@ fun BuyersScreen() {
                     TextField(
                         value = clientRg,
                         onValue = { clientRg = it },
-                        label = { Text(text = "RG do Comprador") },
+                        label = { Text(text = "RG do Comprador", fontWeight = FontWeight.Medium) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number
                         ),
@@ -288,7 +301,7 @@ fun BuyersScreen() {
                     TextField(
                         value = clientCpf,
                         onValue = { clientCpf = it },
-                        label = { Text(text = "CPF do Comprador") },
+                        label = { Text(text = "CPF do Comprador", fontWeight = FontWeight.Medium) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number
                         ),
@@ -314,7 +327,7 @@ fun BuyersScreen() {
                     TextField(
                         value = clientAddressRoad,
                         onValue = { clientAddressRoad = it },
-                        label = { Text(text = "Rua / Logradouro") },
+                        label = { Text(text = "Rua / Logradouro", fontWeight = FontWeight.Medium) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text
                         ),
@@ -327,7 +340,7 @@ fun BuyersScreen() {
                     TextField(
                         value = clientHouseNumber,
                         onValue = { clientHouseNumber = it },
-                        label = { Text(text = "Número") },
+                        label = { Text(text = "Número", fontWeight = FontWeight.Medium) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number
                         ),
@@ -341,7 +354,7 @@ fun BuyersScreen() {
                 TextField(
                     value = clientComplement,
                     onValue = { clientComplement = it },
-                    label = { Text(text = "Complemento (opcional)") },
+                    label = { Text(text = "Complemento (opcional)", fontWeight = FontWeight.Medium) },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text
                     ),
@@ -359,7 +372,7 @@ fun BuyersScreen() {
                     TextField(
                         value = clientNeighborhood,
                         onValue = { clientNeighborhood = it },
-                        label = { Text(text = "Bairro") },
+                        label = { Text(text = "Bairro", fontWeight = FontWeight.Medium) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text
                         ),
@@ -373,7 +386,7 @@ fun BuyersScreen() {
                     TextField(
                         value = clientCity,
                         onValue = { clientCity = it },
-                        label = { Text(text = "Cidade") },
+                        label = { Text(text = "Cidade", fontWeight = FontWeight.Medium) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text
                         ),
@@ -393,20 +406,7 @@ fun BuyersScreen() {
                 TextField(
                     value = propertyPrice,
                     onValue = { propertyPrice = it },
-                    label = { Text(text = "Preço do Imóvel") },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Phone
-                    ),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent
-                    )
-                )
-                Spacer(modifier = Modifier.padding(top = 16.dp))
-                TextField(
-                    value = entryInstallment,
-                    onValue = { entryInstallment = it },
-                    label = { Text(text = "Valor da Parcela de Entrada (Opcional)") },
+                    label = { Text(text = "Preço do Imóvel", fontWeight = FontWeight.Medium) },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Phone
                     ),
@@ -422,9 +422,14 @@ fun BuyersScreen() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     TextField(
-                        value = valueOfMonthlyInstallments,
-                        onValue = { valueOfMonthlyInstallments = it },
-                        label = { Text(text = "Valor das Parcelas Mensais") },
+                        value = entryInstallment,
+                        onValue = { entryInstallment = it },
+                        label = {
+                            Text(
+                                text = "Valor da Parcela de Entrada (Opcional)",
+                                fontWeight = FontWeight.Medium
+                            )
+                        },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Phone
                         ),
@@ -434,12 +439,10 @@ fun BuyersScreen() {
                         )
                     )
                     Spacer(modifier = Modifier.padding(horizontal = 16.dp))
-
                     TextField(
-                        value = datesForMonthlyInstallments,
-                        onValue = { datesForMonthlyInstallments = it },
-                        label = { Text(text = "Datas de Vencimento das Parcelas Mensais") },
-                        placeHolder = { Text(text = "Exemplo: 26/09/25 A 26/09/28") },
+                        value = valueOfMonthlyInstallments,
+                        onValue = { valueOfMonthlyInstallments = it },
+                        label = { Text(text = "Valor das Parcelas Mensais", fontWeight = FontWeight.Medium) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Phone
                         ),
@@ -451,27 +454,86 @@ fun BuyersScreen() {
                 }
                 Spacer(modifier = Modifier.padding(top = 16.dp))
                 Row(
-                    modifier = Modifier,
-                    horizontalArrangement = Arrangement.Center,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     TextField(
-                        value = numberOfInstallments,
-                        onValue = { numberOfInstallments = it },
-                        label = { Text(text = "Número de Parcelas") },
+                        value = datesForMonthlyInstallmentsStart,
+                        onValueChange = { newValue ->
+                            val digits = newValue.filter { it.isDigit() }
+
+                            val limited = digits.take(8)
+
+                            val formatted = buildString {
+                                for (i in limited.indices) {
+                                    append(limited[i])
+                                    if (i == 1 || i == 3) append('/')
+                                }
+                            }
+                            datesForMonthlyInstallmentsStart = formatted
+                        },
+                        label = { Text(text = "Início", fontWeight = FontWeight.Medium) },
+                        placeholder = { Text("Ex: 26/09/25")},
                         keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Phone
+                            keyboardType = KeyboardType.Number
                         ),
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = Color.Transparent,
                             unfocusedContainerColor = Color.Transparent
-                        )
+                        ),
+                        modifier = Modifier
+                            .width(150.dp)
                     )
+                    Spacer(modifier = Modifier.padding(horizontal = 2.dp))
+                    TextField(
+                        value = datesForMonthlyInstallmentsEnd,
+                        onValueChange = { newValue ->
+                            val digits = newValue.filter { it.isDigit() }
+
+                            val limited = digits.take(8)
+
+                            val formatted = buildString {
+                                for (i in limited.indices) {
+                                    append(limited[i])
+                                    if (i == 1 || i == 3) append("/")
+                                }
+                            }
+                            datesForMonthlyInstallmentsEnd = formatted
+                        },
+                        label = { Text(text = "Término", fontWeight = FontWeight.Medium) },
+                        placeholder = { Text("Ex: 26/09/28")},
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number
+                        ),
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent
+                        ),
+                        modifier = Modifier
+                            .width(150.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.padding(top = 16.dp))
+                Text(
+                    "Comprador irá pagar $numberOfInstallmentsResult parcelas mensais de $valueOfMonthlyInstallments",
+                    color = Color.Black,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    maxLines = 2
+                )
+                Spacer(modifier = Modifier.padding(top = 16.dp))
+                Row(
+                    modifier = Modifier,
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Spacer(modifier = Modifier.padding(horizontal = 16.dp))
                     TextField(
                         value = paymentFrequencyForInstallments,
                         onValue = { paymentFrequencyForInstallments = it },
-                        label = { Text(text = "Periocidade de Pagamento") },
+                        label = { Text(text = "Periocidade de Pagamento", fontWeight = FontWeight.Medium) },
                         placeHolder = { Text(text = "Exemplo: Mensal") },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Phone
@@ -497,7 +559,7 @@ fun BuyersScreen() {
                     TextField(
                         value = clientPhone,
                         onValue = { clientPhone = it },
-                        label = { Text(text = "Telefone") },
+                        label = { Text(text = "Telefone", fontWeight = FontWeight.Medium) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Phone
                         ),
@@ -511,7 +573,7 @@ fun BuyersScreen() {
                     TextField(
                         value = clientEmail,
                         onValue = { clientEmail = it },
-                        label = { Text(text = "Email") },
+                        label = { Text(text = "Email", fontWeight = FontWeight.Medium) },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Email
                         ),
@@ -566,9 +628,10 @@ fun BuyersScreen() {
                                 propertyPrice = propertyPrice,
                                 entryInstallment = entryInstallment,
                                 valueOfMonthlyInstallments = valueOfMonthlyInstallments,
-                                datesForMonthlyInstallments = datesForMonthlyInstallments,
+                                datesForMonthlyInstallmentsStart = datesForMonthlyInstallmentsStart,
+                                datesForMonthlyInstallmentsEnd = datesForMonthlyInstallmentsEnd,
                                 paymentFrequencyForInstallments = paymentFrequencyForInstallments,
-                                numberOfInstallments = numberOfInstallments
+                                numberOfInstallments = numberOfInstallmentsResult.toString()
                             )
                         )
                         clients = clientRepository.getAllClients()

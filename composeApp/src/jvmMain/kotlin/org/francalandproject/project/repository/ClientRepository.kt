@@ -5,7 +5,7 @@ import org.francalandproject.project.model.Client
 
 class ClientRepository(private val clientQueries: AppDatabaseQueries) {
 
-    fun insertClient(client: Client){
+    fun insertClient(client: Client) {
         clientQueries.insertClient(
             clientName = client.clientName,
             birthDate = client.birthDate,
@@ -22,7 +22,8 @@ class ClientRepository(private val clientQueries: AppDatabaseQueries) {
             propertyPrice = client.propertyPrice,
             entryInstallment = client.entryInstallment,
             valueOfMonthlyInstallments = client.valueOfMonthlyInstallments,
-            datesForMonthlyInstallments = client.datesForMonthlyInstallments,
+            datesForMonthlyInstallmentsStart = client.datesForMonthlyInstallmentsStart,
+            datesForMonthlyInstallmentsEnd = client.datesForMonthlyInstallmentsEnd,
             paymentFrequencyForInstallments = client.paymentFrequencyForInstallments,
             numberOfInstallments = client.numberOfInstallments,
         )

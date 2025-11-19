@@ -19,7 +19,8 @@ data class Client(
     val propertyPrice: String,
     val entryInstallment: String? = null,
     val valueOfMonthlyInstallments: String,
-    val datesForMonthlyInstallments: String,
+    val datesForMonthlyInstallmentsStart: String,
+    val datesForMonthlyInstallmentsEnd: String,
     val paymentFrequencyForInstallments: String,
     val numberOfInstallments: String
     )
