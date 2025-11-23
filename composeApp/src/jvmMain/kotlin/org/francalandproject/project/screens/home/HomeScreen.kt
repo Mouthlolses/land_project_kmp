@@ -34,7 +34,7 @@ fun HomeScreen(navController: NavController, clientRepository: ClientRepository)
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             when (selectedTab) {
-                0 -> BuyersScreen(clientRepository)
+                0 -> BuyersScreen(navController,clientRepository)
                 1 -> ConsultDebitsScreen()
                 2 -> ContractsScreen()
             }

@@ -22,6 +22,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import francalandproject.composeapp.generated.resources.Res
 import francalandproject.composeapp.generated.resources.accountCircle
 import francalandproject.composeapp.generated.resources.calendarToday
@@ -29,6 +30,7 @@ import francalandproject.composeapp.generated.resources.personAdd
 import org.francalandproject.project.components.TextField
 import org.francalandproject.project.domain.calculateNumberOfInstallments
 import org.francalandproject.project.model.Client
+import org.francalandproject.project.navigation.BuyerDetailsRoute
 import org.francalandproject.project.repository.ClientRepository
 import org.jetbrains.compose.resources.painterResource
 import java.awt.FileDialog
@@ -38,7 +40,7 @@ import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BuyersScreen(clientRepository: ClientRepository) {
+fun BuyersScreen(navController: NavController,clientRepository: ClientRepository) {
 
 
     //variable of state
@@ -111,7 +113,7 @@ fun BuyersScreen(clientRepository: ClientRepository) {
         ) {
             items(clients) { value ->
                 Card(
-                    onClick = { /* Lógica de clique (ex: abrir detalhes) */ },
+                    onClick = { navController.navigate(BuyerDetailsRoute(value.id)) },
                     modifier = Modifier
                         .fillMaxWidth() // Ocupa a largura total para melhor visualização
                         .padding(horizontal = 16.dp, vertical = 8.dp), // Espaçamento mais coeso
