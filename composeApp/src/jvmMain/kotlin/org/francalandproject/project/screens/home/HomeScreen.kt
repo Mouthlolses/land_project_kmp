@@ -9,13 +9,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import org.francalandproject.project.components.TopBarWithTabs
+import org.francalandproject.project.repository.ClientRepository
 import org.francalandproject.project.screens.ConsultDebitsScreen
 import org.francalandproject.project.screens.ContractsScreen
 import org.francalandproject.project.screens.BuyersScreen
 
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(navController: NavController, clientRepository: ClientRepository) {
 
     var selectedTab by remember { mutableIntStateOf(0) }
 
@@ -33,7 +34,7 @@ fun HomeScreen(navController: NavController) {
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             when (selectedTab) {
-                0 -> BuyersScreen()
+                0 -> BuyersScreen(clientRepository)
                 1 -> ConsultDebitsScreen()
                 2 -> ContractsScreen()
             }

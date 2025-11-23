@@ -6,7 +6,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
@@ -23,8 +22,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
-import com.exemplo.shared.db.AppDatabase
 import francalandproject.composeapp.generated.resources.Res
 import francalandproject.composeapp.generated.resources.accountCircle
 import francalandproject.composeapp.generated.resources.calendarToday
@@ -41,20 +38,8 @@ import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BuyersScreen() {
+fun BuyersScreen(clientRepository: ClientRepository) {
 
-    val clientRepository = remember {
-        val dbPath = System.getProperty("client.register") + "\\AppData\\Local\\FrancaLandProject\\app.db"
-        File(dbPath).parentFile?.mkdirs()
-        val driver = JdbcSqliteDriver("jdbc:sqlite:app.db")
-        try {
-            AppDatabase.Schema.create(driver)
-        } catch (e: Exception) {
-
-        }
-        val database = AppDatabase(driver)
-        ClientRepository(database.appDatabaseQueries)
-    }
 
     //variable of state
     var clients by remember { mutableStateOf(clientRepository.getAllClients()) }
@@ -473,7 +458,7 @@ fun BuyersScreen() {
                             datesForMonthlyInstallmentsStart = formatted
                         },
                         label = { Text(text = "Início", fontWeight = FontWeight.Medium) },
-                        placeholder = { Text("Ex: 26/09/25")},
+                        placeholder = { Text("Ex: 26/09/25") },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number
                         ),
@@ -501,7 +486,7 @@ fun BuyersScreen() {
                             datesForMonthlyInstallmentsEnd = formatted
                         },
                         label = { Text(text = "Término", fontWeight = FontWeight.Medium) },
-                        placeholder = { Text("Ex: 26/09/28")},
+                        placeholder = { Text("Ex: 26/09/28") },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number
                         ),
