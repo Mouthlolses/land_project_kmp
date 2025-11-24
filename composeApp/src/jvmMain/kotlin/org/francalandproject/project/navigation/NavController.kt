@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 import org.francalandproject.project.App
 import org.francalandproject.project.repository.ClientRepository
 import org.francalandproject.project.repository.UserRepository
-import org.francalandproject.project.screens.buyerLayer.BuyersDetailsScreen
+import org.francalandproject.project.screens.buyerLayer.BuyerDetailsScreen
 import org.francalandproject.project.screens.home.HomeScreen
 import org.francalandproject.project.screens.onboarding.OnBoardingScreen
 
@@ -42,7 +42,7 @@ fun appMain(userRepository: UserRepository, clientRepository: ClientRepository) 
 
             val buyer = clientRepository.getAllClients().find { it.id == buyerId }
 
-            BuyersDetailsScreen(buyer)
+            BuyerDetailsScreen(buyer)
         }
     }
 }

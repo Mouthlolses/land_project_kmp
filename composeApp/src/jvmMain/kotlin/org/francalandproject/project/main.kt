@@ -16,14 +16,23 @@ import java.io.File
 @OptIn(InternalResourceApi::class)
 fun main() = application {
 
+
     val dbPath = System.getProperty("user.home") + "\\AppData\\Local\\FrancaLandProject\\app.db"
     File(dbPath).parentFile?.mkdirs()
 
-    val driver = JdbcSqliteDriver("jdbc:sqlite:$dbPath")
-    try {
-        AppDatabase.Schema.create(driver)
-    } catch (_: Exception) {}
+    val dbFile = File(dbPath)
+    val isNewDatabase = !dbFile.exists() // <-- testa ANTES
 
+    val driver = JdbcSqliteDriver("jdbc:sqlite:$dbPath")
+
+    if (isNewDatabase) {                // <-- usa a flag
+        try {
+            AppDatabase.Schema.create(driver)
+            println("Banco criado pela primeira vez.")
+        } catch (e: Exception) {
+            println("Erro ao criar DB: ${e.localizedMessage}")
+        }
+    }
     val database = AppDatabase(driver)
     val userRepository = UserRepository(database.appDatabaseQueries)
     val clientRepository = ClientRepository(database.appDatabaseQueries)
