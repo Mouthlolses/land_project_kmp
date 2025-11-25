@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.composeHotReload)
     kotlin("plugin.serialization") version "1.9.23"
 }
 
@@ -42,7 +41,6 @@ kotlin {
 
                 implementation("app.cash.sqldelight:runtime:2.0.2")
                 implementation("app.cash.sqldelight:sqlite-driver:2.0.2")
-                implementation("org.jetbrains.androidx.navigation:navigation-compose:2.9.1")
                 implementation("org.xerial:sqlite-jdbc:3.45.2.0")
             }
         }
