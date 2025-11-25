@@ -87,6 +87,43 @@ fun BuyerDetailsScreen(buyer: Client?) {
                 }
             }
         }
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 8.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White
+            ),
+            shape = RoundedCornerShape(18.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 12.dp)
+        ) {
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp)
+            ) {
+                Text(
+                    text = "Situação de Pagamento",
+                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                    color = Color(0xFF1B1B1B)
+                )
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 12.dp),
+                    thickness = 1.dp,
+                    color = Color(0xFFE0E0E0)
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp, start = 24.dp, end = 24.dp, bottom = 24.dp),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    DetailRow(label = "Estado", value = "Estado Aqui")
+                }
+            }
+        }
     }
 }
 

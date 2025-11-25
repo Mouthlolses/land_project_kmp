@@ -1,4 +1,4 @@
-package org.francalandproject.project.screens
+package org.francalandproject.project.screens.buyerLayer
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -36,11 +36,12 @@ import org.jetbrains.compose.resources.painterResource
 import java.awt.FileDialog
 import java.awt.Frame
 import java.io.File
-import java.time.format.DateTimeFormatter
+import java.text.NumberFormat
+import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BuyersScreen(navController: NavController,clientRepository: ClientRepository) {
+fun BuyersScreen(navController: NavController, clientRepository: ClientRepository) {
 
 
     //variable of state
@@ -82,8 +83,6 @@ fun BuyersScreen(navController: NavController,clientRepository: ClientRepository
 
     val sheetState = rememberModalBottomSheetState()
     var showSheet by remember { mutableStateOf(false) }
-
-    val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
 
     Scaffold(
@@ -255,8 +254,21 @@ fun BuyersScreen(navController: NavController,clientRepository: ClientRepository
                     Spacer(modifier = Modifier.padding(horizontal = 16.dp))
                     TextField(
                         value = birthDate,
-                        onValue = { birthDate = it },
+                        onValue = { newValue ->
+                            val digits = newValue.filter { it.isDigit() }
+
+                            val limited = digits.take(8)
+
+                            val formatted = buildString {
+                                for (i in limited.indices) {
+                                    append(limited[i])
+                                    if (i == 1 || i == 3) append("/")
+                                }
+                            }
+                            birthDate = formatted
+                        },
                         label = { Text(text = "Data de Nascimento", fontWeight = FontWeight.Medium) },
+                        placeHolder = { Text(text = "Ex: 05/12/1998") },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number
                         ),
@@ -304,7 +316,7 @@ fun BuyersScreen(navController: NavController,clientRepository: ClientRepository
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
-                Spacer(modifier = Modifier.padding(bottom = 4.dp))
+                Spacer(modifier = Modifier.padding(top = 16.dp))
 
                 Row(
                     modifier = Modifier,
@@ -392,7 +404,20 @@ fun BuyersScreen(navController: NavController,clientRepository: ClientRepository
                 Spacer(modifier = Modifier.padding(top = 16.dp))
                 TextField(
                     value = propertyPrice,
-                    onValue = { propertyPrice = it },
+                    onValue = { input ->
+
+                        val digits = input.filter { it.isDigit() }
+
+                        val cents = digits.toLongOrNull() ?: 0L
+                        val value = cents / 100.00
+
+                        val formatted = NumberFormat
+                            .getCurrencyInstance(Locale("pt", "BR"))
+                            .format(value)
+
+                        propertyPrice = formatted
+
+                    },
                     label = { Text(text = "Preço do Imóvel", fontWeight = FontWeight.Medium) },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Phone
@@ -410,7 +435,19 @@ fun BuyersScreen(navController: NavController,clientRepository: ClientRepository
                 ) {
                     TextField(
                         value = entryInstallment,
-                        onValue = { entryInstallment = it },
+                        onValue = { input ->
+
+                            val digits = input.filter { it.isDigit() }
+
+                            val cents = digits.toLongOrNull() ?: 0L
+                            val value = cents / 100.00
+
+                            val formatted = NumberFormat
+                                .getCurrencyInstance(Locale("pt", "BR"))
+                                .format(value)
+
+                            entryInstallment = formatted
+                        },
                         label = {
                             Text(
                                 text = "Valor da Parcela de Entrada (Opcional)",
@@ -428,10 +465,23 @@ fun BuyersScreen(navController: NavController,clientRepository: ClientRepository
                     Spacer(modifier = Modifier.padding(horizontal = 16.dp))
                     TextField(
                         value = valueOfMonthlyInstallments,
-                        onValue = { valueOfMonthlyInstallments = it },
+                        onValue = { input ->
+
+                            val digits = input.filter { it.isDigit() }
+
+                            val cents = digits.toLongOrNull() ?: 0L
+                            val value = cents / 100.00
+
+                            val formatted = NumberFormat
+                                .getCurrencyInstance(Locale("pt", "BR"))
+                                .format(value)
+
+                            valueOfMonthlyInstallments = formatted
+
+                        },
                         label = { Text(text = "Valor das Parcelas Mensais", fontWeight = FontWeight.Medium) },
                         keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Phone
+                            keyboardType = KeyboardType.Number
                         ),
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = Color.Transparent,
@@ -460,7 +510,7 @@ fun BuyersScreen(navController: NavController,clientRepository: ClientRepository
                             datesForMonthlyInstallmentsStart = formatted
                         },
                         label = { Text(text = "Início", fontWeight = FontWeight.Medium) },
-                        placeholder = { Text("Ex: 26/09/25") },
+                        placeholder = { Text("Ex: 26/09/2025") },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number
                         ),
@@ -488,7 +538,7 @@ fun BuyersScreen(navController: NavController,clientRepository: ClientRepository
                             datesForMonthlyInstallmentsEnd = formatted
                         },
                         label = { Text(text = "Término", fontWeight = FontWeight.Medium) },
-                        placeholder = { Text("Ex: 26/09/28") },
+                        placeholder = { Text("Ex: 26/09/2028") },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number
                         ),

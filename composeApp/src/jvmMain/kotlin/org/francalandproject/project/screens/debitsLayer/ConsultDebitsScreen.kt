@@ -1,4 +1,4 @@
-package org.francalandproject.project.screens
+package org.francalandproject.project.screens.debitsLayer
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
